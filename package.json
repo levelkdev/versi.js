@@ -1,0 +1,43 @@
+{
+  "name": "versi",
+  "version": "0.1.0",
+  "contributors": [
+    {
+      "email": "mike.calvanese@levelk.io",
+      "name": "Mike Calvanese"
+    },
+    {
+      "email": "chris.whinfrey@levelk.io",
+      "name": "Chris Whinfrey"
+    },
+    {
+      "email": "john.kelleher@levelk.io",
+      "name": "John Kelleher"
+    }
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "files": [
+    "build",
+    "lib",
+    "src"
+  ],
+  "dependencies": {
+    "truffle-contract": "^3.0.0",
+    "truffle-ext": "^0.1.7"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "cross-env": "^5.0.4",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.3"
+  },
+  "scripts": {
+    "build": "yarn build:commonjs",
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib"
+  }
+}
