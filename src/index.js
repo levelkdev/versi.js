@@ -7,14 +7,25 @@ export default class Versi {
     this.web3Provider = web3Provider
     this.web3 = web3
     this.contractDefaults = contractDefaults
-    const { requireContract } = truffleExt(web3)
-    this.Versi = requireContract(this.getTruffleContract(versiContracts.Versi))
+
+    this.Versi = this.getContract(versiContracts.Versi)
+    this.VersiEtherToken = this.getContract(versiContracts.VersiEtherToken)
   }
 
-  async issueVersiEtherToken () {
-    const versi = await this.Versi.deployed()
-    const tx = await versi.issueVersiEtherToken()
+  async buyVersiEther (value, account) {
+    const versiEtherToken = await this.VersiEtherToken.deployed()
+    const weiValue = this.toWei(value)
+    let params = { value: weiValue }
+    if (account) params.from = account
+    const tx = await versiEtherToken.buy(params)
     return tx
+  }
+
+  async versiEtherBalance (account) {
+    const versiEtherToken = await this.VersiEtherToken.deployed()
+    const balance = await versiEtherToken.balanceOf(account)
+    const ethBalance = this.toEth(balance.toNumber())
+    return ethBalance
   }
 
   getTruffleContract (contractAbi) {
@@ -24,5 +35,18 @@ export default class Versi {
       contract.defaults(this.contractDefaults)
     }
     return contract
+  }
+
+  getContract (contractAbi) {
+    const { requireContract } = truffleExt(this.web3)
+    return requireContract(this.getTruffleContract(contractAbi))
+  }
+
+  toWei (amount) {
+    return this.web3.toWei(amount, 'ether')
+  }
+
+  toEth (amount) {
+    return this.web3.fromWei(amount, 'ether')
   }
 }
