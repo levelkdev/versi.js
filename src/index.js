@@ -21,6 +21,15 @@ export default class Versi {
     return tx
   }
 
+  async sellVersiEther (value, account) {
+    const versiEtherToken = await this.VersiEtherToken.deployed()
+    const weiValue = this.toWei(value)
+    let params
+    if (account) params = { from: account }
+    const tx = await versiEtherToken.sell(weiValue, params)
+    return tx
+  }
+
   async versiEtherBalance (account) {
     const versiEtherToken = await this.VersiEtherToken.deployed()
     const balance = await versiEtherToken.balanceOf(account)
