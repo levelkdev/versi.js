@@ -10,6 +10,7 @@ export default class Versi {
 
     this.Versi = this.getContract(versiContracts.Versi)
     this.VersiEtherToken = this.getContract(versiContracts.VersiEtherToken)
+    this.VersiPool = this.getContract(versiContracts.VersiPool)
   }
 
   async buyVersiEther (value, account) {
@@ -35,6 +36,13 @@ export default class Versi {
     const balance = await versiEtherToken.balanceOf(account)
     const ethBalance = this.toEth(balance.toNumber())
     return ethBalance
+  }
+
+  async poolValue () {
+    const versiPool = await this.VersiPool.deployed()
+    const weiVal = this.web3.eth.getBalance(versiPool.address)
+    const ethVal = this.toEth(weiVal.toNumber())
+    return ethVal
   }
 
   getTruffleContract (contractAbi) {
