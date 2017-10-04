@@ -9,31 +9,32 @@ export default class Versi {
     this.contractDefaults = contractDefaults
 
     this.Versi = this.getContract(versiContracts.Versi)
-    this.VersiEtherToken = this.getContract(versiContracts.VersiEtherToken)
+    this.TokenExchange = this.getContract(versiContracts.TokenExchange)
+    this.VersiExchangableToken = this.getContract(versiContracts.VersiExchangableToken)
     this.VersiPool = this.getContract(versiContracts.VersiPool)
   }
 
   async buyVersiEther (value, account) {
-    const versiEtherToken = await this.VersiEtherToken.deployed()
+    const tokenExchange = await this.TokenExchange.deployed()
     const weiValue = this.toWei(value)
     let params = { value: weiValue }
     if (account) params.from = account
-    const tx = await versiEtherToken.buy(params)
+    const tx = await tokenExchange.buy(params)
     return tx
   }
 
   async sellVersiEther (value, account) {
-    const versiEtherToken = await this.VersiEtherToken.deployed()
+    const tokenExchange = await this.TokenExchange.deployed()
     const weiValue = this.toWei(value)
     let params
     if (account) params = { from: account }
-    const tx = await versiEtherToken.sell(weiValue, params)
+    const tx = await tokenExchange.sell(weiValue, params)
     return tx
   }
 
   async versiEtherBalance (account) {
-    const versiEtherToken = await this.VersiEtherToken.deployed()
-    const balance = await versiEtherToken.balanceOf(account)
+    const versiExchangableToken = await this.VersiExchangableToken.deployed()
+    const balance = await versiExchangableToken.balanceOf(account)
     const ethBalance = this.toEth(balance.toNumber())
     return ethBalance
   }
