@@ -4,7 +4,7 @@ export default (web3, TokenExchange, VersiExchangableToken) => {
   const utils = utilsProvider(web3)
 
   return {
-    buyVersiEther: async (value, account) => {
+    buyVsiEth: async (value, account) => {
       const tokenExchange = await TokenExchange.deployed()
       const weiValue = utils.toWei(value)
       let params = { value: weiValue }
@@ -13,7 +13,7 @@ export default (web3, TokenExchange, VersiExchangableToken) => {
       return tx
     },
 
-    sellVersiEther: async (value, account) => {
+    sellVsiEth: async (value, account) => {
       const tokenExchange = await TokenExchange.deployed()
       const weiValue = utils.toWei(value)
       let params
@@ -22,7 +22,7 @@ export default (web3, TokenExchange, VersiExchangableToken) => {
       return tx
     },
 
-    versiEtherBalance: async (account) => {
+    vsiEthBalance: async (account) => {
       const versiExchangableToken = await VersiExchangableToken.deployed()
       const balance = await versiExchangableToken.balanceOf(account)
       const ethBalance = utils.toEth(balance.toNumber())
